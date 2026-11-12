@@ -1,17 +1,49 @@
 plugins {
-  id 'com.android.application'
-  id 'org.jetbrains.kotlin.android'
-}
-android {
-  namespace 'com.aloo.sensipro'
-  compileSdk 34
-  defaultConfig { applicationId 'com.aloo.sensipro'; minSdk 26; targetSdk 34; versionCode 2; versionName '2.0' }
-  buildFeatures { buildConfig true }
-  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
-  kotlinOptions { jvmTarget = '17' }
-  buildTypes { release { minifyEnabled false } }
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
+android {
+    namespace 'com.aloo.sensipro'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.aloo.sensipro'
+        minSdk 26
+        targetSdk 34
+        versionCode 2
+        versionName '2.0'
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('RELEASE_STORE_FILE'))
+            storePassword System.getenv('KEY_STORE_PASSWORD')
+            keyAlias System.getenv('KEY_ALIAS')
+            keyPassword System.getenv('KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+        }
+    }
+}
 
 dependencies {
     implementation 'com.google.android.gms:play-services-ads:23.6.0'
